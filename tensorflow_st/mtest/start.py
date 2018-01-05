@@ -15,6 +15,9 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 sess = tf.InteractiveSession()
+
+file_writer = tf.summary.FileWriter('logs/', sess.graph)
+
 x = tf.placeholder(tf.float32, [None, 784])
 
 w = tf.Variable(tf.zeros([784, 10]))
@@ -39,6 +42,7 @@ tf.global_variables_initializer().run()
 # 训练1000次，每次取100个
 for i in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
+    # print(batch_xs[0])
     train_step.run({x: batch_xs, y_: batch_ys})
 # 预测
 cor_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
