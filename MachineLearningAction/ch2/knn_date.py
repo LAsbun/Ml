@@ -85,11 +85,13 @@ def datingClassTest():
     noreMat, ranges, minVals = autoNorm(datingDataMat)
     m = noreMat.shape[0]
     numTestVecs = int(m*hoRatio)
+    print(m)
     errorCount = 0
+    # 这里 取 十分之一的数据作为测试，每次与剩余的十分之九分类比较
     for i in range(numTestVecs):
         classifyResult = classify0(noreMat[i, :], noreMat[numTestVecs:m, :],\
                                    datingLabels[numTestVecs:m], 3)
-        print("classifyResult: {}. Label:{}".format(classifyResult, datingLabels[i]))
+        # print("classifyResult: {}. Label:{}".format(classifyResult, datingLabels[i]))
         if(classifyResult != datingLabels[i]): errorCount += 1
     print("{}:{}".format(errorCount, numTestVecs))
 
@@ -104,10 +106,14 @@ def autoNorm(dataSet):
     _min = dataSet.min(0)
     _max = dataSet.max(0)
 
+    print(_min)
+    print(_max)
+
     _range = _max - _min
 
     normDataSet = zeros(shape=shape(dataSet))
     print(dataSet.shape)
+    print(_range)
     m = dataSet.shape[0]
 
     normDataSet = dataSet - tile(_min, (m, 1))
@@ -126,5 +132,6 @@ def draw(file_name):
 
 
 if __name__ == '__main__':
-    file_name = "datingTestSet2.txt"
-    draw(file_name)
+    # file_name = "datingTestSet2.txt"
+    # draw(file_name)
+    datingClassTest()
