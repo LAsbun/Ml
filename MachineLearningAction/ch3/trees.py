@@ -165,3 +165,24 @@ def createTree(dataSet, labels):
         myTree[bestFeatureLabel][va] = createTree(splitDataSet(dataSet, bestFeature, va), subLabels)
 
     return myTree
+
+def classfy(inputTree, featureLabels, testVec):
+    """
+        使用决策树进行分类
+    :param inputTree: 已经分好的决策树
+    :param featureLabels: 决策树特征
+    :param testVec: 测试数据
+    :return:
+    """
+
+    firstStr = list(inputTree.keys())[0]
+    secDict = inputTree[firstStr]
+    featIndex = featureLabels.index(firstStr)
+    for k in secDict.keys():
+        if testVec[featIndex] == k:
+            if type(secDict[k]).__name__ == "dict":
+                classLabel = classfy(secDict[k], featureLabels, testVec)
+            else:
+                classLabel = secDict[k]
+
+    return classLabel
